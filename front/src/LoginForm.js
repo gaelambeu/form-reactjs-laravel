@@ -14,7 +14,7 @@ const LoginForm = () => {
     };
 
     try {
-      const response = await axios.post('votre-url-de-connexion', data);
+      const response = await axios.post('http://127.0.0.1:8000/api/auth/login', data);
       console.log(response.data); // Faites quelque chose avec la réponse
     } catch (error) {
       console.error(error);
