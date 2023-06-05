@@ -7,11 +7,15 @@ const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [password_confirmation, setPasswordConfirmation] = useState("");
+    const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
+
+    const csrf = () => axios.get('/sanctum/csrf-cookie')
+
 
     const handleRegister = async (event) => {
         event.preventDefault();
-
+        await csrf();
         try{
             await axios.post("/register", {name, email, password, password_confirmation })
             setName("");
@@ -20,7 +24,9 @@ const Register = () => {
             setPasswordConfirmation("");
             navigate("/")
         } catch(e) {
-            console.log(e);
+            if(e.response.status = 422){
+                setErrors(e.response.data.errors);
+            }
         }
     }
 
@@ -41,9 +47,9 @@ const Register = () => {
                                         placeholder="Name"
                                         className="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-3 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
                                     />
-                                    <div className="flex">
-                                        <span className="text-red-400 text-sm m-1 p-1">error</span>
-                                    </div>
+                                    {errors.name && <div className="flex">
+                                        <span className="text-red-400 text-sm m-1 p-1">{errors.name[0]}</span>
+                                    </div>}
                                 </div>
                                 <div className="mb-2">
                                     <input
@@ -53,9 +59,9 @@ const Register = () => {
                                         placeholder="Email"
                                         className="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-3 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
                                     />
-                                    <div className="flex">
-                                        <span className="text-red-400 text-sm m-1 p-1">error</span>
-                                    </div>
+                                    {errors.email && <div className="flex">
+                                        <span className="text-red-400 text-sm m-1 p-1">{errors.email[0]}</span>
+                                    </div>}
                                 </div>
                                 <div className="mb-2">
                                     <input 
@@ -65,9 +71,9 @@ const Register = () => {
                                         placeholder="Password"
                                         className="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-3 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
                                     />
-                                    <div className="flex">
-                                        <span className="text-red-400 text-sm m-1 p-1">error</span>
-                                    </div>
+                                    {errors.password && <div className="flex">
+                                        <span className="text-red-400 text-sm m-1 p-1">{errors.password[0]}</span>
+                                    </div>}
                                 </div>
                                 <div className="mb-2">
                                     <input 
@@ -77,9 +83,7 @@ const Register = () => {
                                         placeholder="Password Confirmation"
                                         className="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-3 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
                                     />
-                                    <div className="flex">
-                                        <span className="text-red-400 text-sm m-1 p-1">error</span>
-                                    </div>
+                        
                                 </div>
                                 <div className="mb-5">
                                     <button type="submit" className="w-full px-4 py-3 bg-indigo-500 hover:gb-indigo-700 rounded-md text-white">

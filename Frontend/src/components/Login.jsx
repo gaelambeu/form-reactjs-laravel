@@ -6,17 +6,23 @@ import axios from "../api/axios";
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
+
+    const csrf = () => axios.get('/sanctum/csrf-cookie')
 
     const handleLogin = async (event) => {
         event.preventDefault();
+        await csrf();
         try{
             await axios.post('/login', {email, password});   
             setEmail("");
             setPassword("");
             navigate("/");
         } catch(e) {
-            console.log(e);
+            if(e.response.status = 422){
+                setErrors(e.response.data.errors);
+            }
         }
     };
 
@@ -36,9 +42,9 @@ const Login = () => {
                                         placeholder="Email"
                                         className="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-3 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
                                     />
-                                    <div className="flex">
-                                        <span className="text-red-400 text-sm m-1 p-1">error</span>
-                                    </div>
+                                    {errors.email && <div className="flex">
+                                        <span className="text-red-400 text-sm m-1 p-1">{errors.email[0]}</span>
+                                    </div>}
                                 </div>
 
                                 <div className="mb-2">
@@ -49,9 +55,9 @@ const Login = () => {
                                         placeholder="Password"
                                         className="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-3 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
                                     />
-                                    <div className="flex">
-                                        <span className="text-red-400 text-sm m-1 p-1">error</span>
-                                    </div>
+                                    {errors.password && <div className="flex">
+                                        <span className="text-red-400 text-sm m-1 p-1">{errors.password[0]}</span>
+                                    </div>}
                                 </div>
                                 
                                 <div className="mb-5">
