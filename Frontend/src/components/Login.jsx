@@ -1,13 +1,24 @@
 import { useState } from "react";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import axios from "../api/axios";
+
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleLogin = async (event) => {
         event.preventDefault();
-    }
+        try{
+            await axios.post('/login', {email, password});   
+            setEmail("");
+            setPassword("");
+            navigate("/");
+        } catch(e) {
+            console.log(e);
+        }
+    };
 
     return (
         <section className="bg-[#F4F7FF] py-20 lg:py-[80px]">
@@ -29,6 +40,7 @@ const Login = () => {
                                         <span className="text-red-400 text-sm m-1 p-1">error</span>
                                     </div>
                                 </div>
+
                                 <div className="mb-2">
                                     <input 
                                         type="password"
@@ -41,6 +53,7 @@ const Login = () => {
                                         <span className="text-red-400 text-sm m-1 p-1">error</span>
                                     </div>
                                 </div>
+                                
                                 <div className="mb-5">
                                     <button type="submit" className="w-full px-4 py-3 bg-indigo-500 hover:gb-indigo-700 rounded-md text-white">
                                         Login

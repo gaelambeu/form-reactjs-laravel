@@ -1,7 +1,30 @@
-import React from "react";
-import { Link } from "react-router-dom"
+import { useState } from "react";
+import { Link, useNavigate, Await  } from "react-router-dom"
+import axios from "../api/axios";
 
 const Register = () => {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [password_confirmation, setPasswordConfirmation] = useState("");
+    const navigate = useNavigate();
+
+    const handleRegister = async (event) => {
+        event.preventDefault();
+
+        try{
+            await axios.post("/register", {name, email, password, password_confirmation })
+            setName("");
+            setEmail("");
+            setPassword("");
+            setPasswordConfirmation("");
+            navigate("/")
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+
     return (
         <section className="bg-[#F4F7FF] py-20 lg:py-[30px]">
             <div className="container mx-auto">
@@ -9,10 +32,12 @@ const Register = () => {
                     <div className="w-full px-4">
                         <div className="relative mx-auto max-w-[430px] overflow-hidden rounded-lg bg-white py-5 px-10 text-center sm:px-12 md:px-[35px]">
                             <div className="mb-10 text-center md:mb-5">Laraveller</div>
-                            <form action="">
+                            <form onSubmit={handleRegister}>
                             <div className="mb-2">
                                     <input 
                                         type="text"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value) }
                                         placeholder="Name"
                                         className="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-3 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
                                     />
@@ -23,6 +48,8 @@ const Register = () => {
                                 <div className="mb-2">
                                     <input
                                         type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value) }
                                         placeholder="Email"
                                         className="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-3 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
                                     />
@@ -33,6 +60,8 @@ const Register = () => {
                                 <div className="mb-2">
                                     <input 
                                         type="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value) }
                                         placeholder="Password"
                                         className="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-3 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
                                     />
@@ -43,6 +72,8 @@ const Register = () => {
                                 <div className="mb-2">
                                     <input 
                                         type="password"
+                                        value={password_confirmation}
+                                        onChange={(e) => setPasswordConfirmation(e.target.value) }
                                         placeholder="Password Confirmation"
                                         className="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-3 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
                                     />
