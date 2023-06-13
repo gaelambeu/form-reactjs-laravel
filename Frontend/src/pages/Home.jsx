@@ -1,17 +1,18 @@
-import { useEffect } from "react";
 import useAuthContext from "../context/AuthContext";
-
+// import { useEffect } from "react";
 
 const Home = () => {
-    const { user, getUser } = useAuthContext();
+    // const { user, getUser } = useAuthContext();
+    const { user } = useAuthContext();
 
-    useEffect(() => {
-        if (!user) {
-            getUser();
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (!user) {
+    //         getUser();
+    //     }
+    // }, [])
+
     return (
-        <div>{user?.name}</div>
+        <div className="max-w-7xl mx-auto mt-12">{user?.name}</div>
     )
 }
 
