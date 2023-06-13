@@ -6,24 +6,23 @@ import axios from "../api/axios";
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
 
-    const csrf = () => axios.get('/sanctum/csrf-cookie')
+    // const csrf = () => axios.get('/sanctum/csrf-cookie')
 
     const handleLogin = async (event) => {
         event.preventDefault();
-        await csrf();
-        try{
-            await axios.post('/login', {email, password});   
-            setEmail("");
-            setPassword("");
-            navigate("/");
-        } catch(e) {
-            if(e.response.status == 422){
-                setErrors(e.response.data.errors);
-            }
-        }
+        // await csrf();
+        // try{
+        //     await axios.post('/login', {email, password});   
+        //     setEmail("");
+        //     setPassword("");
+        //     navigate("/");
+        // } catch(e) {
+        //     if(e.response.status == 422){
+        //         setErrors(e.response.data.errors);
+        //     }
+        // }
     };
 
     return (
