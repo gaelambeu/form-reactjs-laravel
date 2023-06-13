@@ -20,7 +20,7 @@ const Login = () => {
             setPassword("");
             navigate("/");
         } catch(e) {
-            if(e.response.status = 422){
+            if(e.response.status == 422){
                 setErrors(e.response.data.errors);
             }
         }
