@@ -1,33 +1,37 @@
 import { useState } from "react";
-import { Link, useNavigate, Await  } from "react-router-dom"
-import axios from "../api/axios";
+import { Link  } from "react-router-dom";
+import useAuthContext from "../context/AuthContext";
+
+// import axios from "../api/axios";
 
 const Register = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [password_confirmation, setPasswordConfirmation] = useState("");
-    const [errors, setErrors] = useState([]);
-    const navigate = useNavigate();
+    const {register, errors} = useAuthContext();
+    // const [errors, setErrors] = useState([]);
+    // const navigate = useNavigate();
 
-    const csrf = () => axios.get('/sanctum/csrf-cookie')
+    // const csrf = () => axios.get('/sanctum/csrf-cookie')
 
 
     const handleRegister = async (event) => {
         event.preventDefault();
-        await csrf();
-        try{
-            await axios.post("/register", {name, email, password, password_confirmation })
-            setName("");
-            setEmail("");
-            setPassword("");
-            setPasswordConfirmation("");
-            navigate("/")
-        } catch(e) {
-            if(e.response.status = 422){
-                setErrors(e.response.data.errors);
-            }
-        }
+        register({name, email, password, password_confirmation});
+        // await csrf();
+        // try{
+        //     await axios.post("/register", {name, email, password, password_confirmation })
+        //     setName("");
+        //     setEmail("");
+        //     setPassword("");
+        //     setPasswordConfirmation("");
+        //     navigate("/")
+        // } catch(e) {
+        //     if(e.response.status = 422){
+        //         setErrors(e.response.data.errors);
+        //     }
+        // }
     }
 
 
